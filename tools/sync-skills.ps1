@@ -43,7 +43,9 @@ param(
   [int]$EveryHours = 3
 )
 $ErrorActionPreference = 'Stop'
-$Sources = $Sources | ForEach-Object { (Resolve-Path $_).Path.TrimEnd('\') }
+# `pwsh -File` (the scheduled task) passes a list as one comma-joined string; split it back.
+$Sources = $Sources -split ',' | Where-Object { $_ } | ForEach-Object { (Resolve-Path $_.Trim()).Path.TrimEnd('\') }
+$Projects = @($Projects -split ',' | Where-Object { $_ } | ForEach-Object { $_.Trim() })
 
 function Test-Junction($path) {
   $i = Get-Item -LiteralPath $path -Force -ErrorAction SilentlyContinue
