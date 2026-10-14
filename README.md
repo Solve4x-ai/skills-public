@@ -1,45 +1,56 @@
-# solve4x skills (public)
+# 🧰 Solve4x Skills
 
-hey, i'm james from [Solve4x](https://solve4x.ai). i run a small IT and MSP shop, and i lean on AI agents for a lot of the repetitive stuff.
+**Little recipes that make AI agents less forgetful.**
 
-**these are the skills i'm happy to share.** each one is a short, plain-english recipe an agent can follow so it does the job the same careful way every time. take whatever's useful.
+Every time you explain a task to an agent, you're writing instructions it will forget tomorrow. A *skill* fixes that: a short, plain-English playbook the agent loads on demand and follows the same careful way every time.
 
-## install
+These are the skills from [Solve4x](https://solve4x.ai) that are generic enough to share. Grab what's useful, remix the rest.
+
+## ⚡ Quick start
 
 ```bash
 git clone https://github.com/Solve4x-ai/skills-public.git
 ```
 
-then copy or symlink the folders under `skills/` into `~/.cursor/skills/` (all projects) or a project's `.cursor/skills/`. `git pull` for updates.
+Copy (or symlink) any folder under `skills/` into:
 
-## usage
+- `~/.cursor/skills/` to use it in every project, or
+- `<your-project>/.cursor/skills/` for just one.
 
-type `/` in Cursor's agent chat, pick a skill, and say what you want:
+Then type `/` in Cursor's agent chat, pick a skill, and tell it what you need:
 
 ```
-/skill-template help me write a skill for resetting a user's MFA.
+/skill-template help me write a skill for resetting a user's MFA
 ```
 
-## skills
+Run `git pull` now and then to get new skills.
 
-| skill | use it when |
+## 📚 What's inside
+
+| Skill | Reach for it when... |
 |---|---|
-| [`/skill-authoring`](./skills/skill-authoring/SKILL.md) | you're creating, moving, editing or publishing a skill and want it in the right place, marked private or public, in the same shape as the rest. |
-| [`/skill-template`](./skills/skill-template/SKILL.md) | you're writing a new skill and want the starting shape. |
+| [`skill-authoring`](./skills/skill-authoring/SKILL.md) | you're creating, moving, or publishing a skill and want it in the right place, marked private or public. |
+| [`skill-template`](./skills/skill-template/SKILL.md) | you're writing a new skill and want a solid starting shape. |
 
-more coming as i clean them up.
+More are on the way as they get cleaned up for public use.
 
-## add a skill
+## ✍️ Write your own
 
-1. copy `skills/skill-template/` to `skills/<your-skill-name>/`.
-2. fill in `name` and `description` (the description says *when* to use it; that's how the agent picks it).
-3. keep the steps short and in order, with the "never do this" rules at the bottom.
-4. keep it generic: no client names, hostnames, keys or personal info.
+1. Copy `skills/skill-template/` to `skills/<your-skill-name>/`.
+2. Write a `description` that says **when** to use it. That's how the agent decides to pick it up.
+3. Keep the steps short, numbered, and checkable.
+4. Put the "never do this" rules at the bottom, where they're hard to miss.
 
-good rule of thumb: if you've explained the same thing to an agent twice, it's a skill.
+> **Rule of thumb:** if you've explained it to an agent twice, it's a skill.
 
-## thanks
+## 🔒 House rules
 
-the shape of this repo is borrowed from poteto's [pstack](https://github.com/cursor/plugins/tree/main/pstack). go look at it.
+No secrets, keys, IPs, client names, or personal info. Skills say *where* to find things, never *what* they are.
 
-— james 🌲
+## 🤝 Contributing
+
+Found a bug or have an improvement? Open an issue or a PR. Small and practical beats big and clever.
+
+---
+
+Built by [Solve4x](https://solve4x.ai) 🌲
