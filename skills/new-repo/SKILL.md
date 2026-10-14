@@ -10,6 +10,12 @@ last-verified: 2026-10-13
 Create a complete, well-set-up repository in one go, after asking a few plain questions. Works for people who've never made a repo before.
 
 1. **Ask the questions.** Use plain words and give your recommended answer for each, so the person can just say "yes". Ask them together, not one by one, unless they seem unsure. Explain any term they might not know (in brackets is how).
+
+   Always offer a way out at the top: **"Not sure? Just tell me what it's for, and I'll choose everything for you."** If they take it, or answer "I don't know" / "you decide" to any question, choose for them:
+   - **Choose the safest option, not the cleverest:** private; treat client data as *possible* (extra protections on) unless they've clearly said there's none; CI off; no license needed (private).
+   - **Work out the rest from what they told you and what you can see:** a name from the purpose; the kind from what they want built (or "not sure yet"); related repos from their existing ones on GitHub; rules from their other repos' AGENTS.md.
+   - **Explain each choice in one short line, and why**, in the summary (step 2), e.g. "Private, so only you can see it. You can make it public later."
+   - **Prefer choices that are easy to change later** (visibility, CI, license, rules). Only the name is hard to change; pick it carefully.
    1. **What is it, and who is it for?** One or two sentences. This becomes the description and the top of the README.
    2. **Name?** Suggest one: short, lowercase, words joined by dashes (e.g. `front-desk-app`).
    3. **Private or public?** Recommend **private** unless they want strangers to see and reuse it. (Private: only people you invite can see it. Public: anyone on the internet can read it, but only you can change it.)
@@ -20,7 +26,7 @@ Create a complete, well-set-up repository in one go, after asking a few plain qu
    8. **Any rules that must always hold?** Things that must never happen, machines or data that are off-limits, how it must be tested. Offer examples from their other repos if you know them.
    9. **Run automatic checks on GitHub (CI)?** Recommend **no** if their GitHub Actions minutes are limited; checks then run on their own computer before each commit. (CI means GitHub runs the tests on every change.)
    10. **Public only: license?** Recommend **MIT** (anyone may use it, with credit). Apache 2.0 if they want explicit patent terms.
-2. **Confirm a summary** in plain words: name, private/public, what gets created, where the folder will be. Wait for a yes.
+2. **Confirm a summary** in plain words: name, private/public, what gets created, where the folder will be, and (for anything you chose) why. Wait for a yes, even when they asked you to decide everything; that one "yes" is the only thing they have to do.
 3. **Create it** with the script, from your skills tools folder (PowerShell):
    ```powershell
    .\tools\new-repo\new-repo.ps1 -Name <name> -Description "<what it is>" -Visibility private|public `
@@ -43,6 +49,7 @@ Create a complete, well-set-up repository in one go, after asking a few plain qu
 - If the script or this skill is wrong, fix it in the same session.
 
 ## never
-- Never create the repo before the person has confirmed the summary.
+- Never create the repo before the person has confirmed the summary, including when you made every choice.
+- Never pick "public" for someone who left the choice to you.
 - Never make a repo public if it will hold client or personal data, passwords or business documents.
 - Never put secrets, client names or personal data into the README, AGENTS.md or any starter file.
