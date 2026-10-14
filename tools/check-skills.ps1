@@ -69,6 +69,12 @@ foreach ($f in Get-ChildItem -LiteralPath $skillsDir -Recurse -File) {
   }
 }
 
+# Public repos: the commit's author name and email are published too. Refuse denylisted ones.
+if ($Expect -eq 'public' -and $deny) {
+  $author = git -C $Root var GIT_AUTHOR_IDENT 2>$null
+  foreach ($w in $deny) { if ($author -and $author -match [regex]::Escape($w.Trim())) { $problems.Add("commit author '$($author -replace '\s+\d+\s+[+-]\d{4}$', '')' contains a denylisted name or email. Set this repo's git user.name/user.email to a public identity.") ; break } }
+}
+
 if ($problems.Count) {
   $problems | ForEach-Object { Write-Host "  x $_" -ForegroundColor Red }
   Write-Host "$($problems.Count) problem(s). Fix them, or see the skill-authoring skill." -ForegroundColor Red
