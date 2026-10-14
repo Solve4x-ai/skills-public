@@ -3,6 +3,7 @@ name: skill-authoring
 description: Use when creating, moving, editing or publishing an agent skill (SKILL.md), so it lands in the right place with the right privacy and the same shape as the rest.
 visibility: public
 scope: personal
+last-verified: 2026-10-13
 ---
 # skill-authoring
 
@@ -14,7 +15,7 @@ Set these up once and use them in place of the placeholders below:
 
 1. **Is it a skill?** Only if it's done more than once. A one-time task is not a skill. Rule of thumb: if you've explained the same thing to an agent twice, it's a skill.
 2. **Pick its home.** When unsure, choose the more private option and ask.
-   - **Project skill:** tied to one codebase, client, server or workflow. It goes in that project's repo at `.cursor/skills/<skill-name>/SKILL.md`, where it travels with the project and inherits its privacy. This is the default for anything project-specific.
+   - **Project skill:** tied to one codebase, client, server or workflow. It goes in that project's repo at `.agents/skills/<skill-name>/SKILL.md`, where it travels with the project and inherits its privacy. This is the default for anything project-specific. Cursor, Codex and Devin all read `.agents/skills` in a repo; `tools/sync-skills.ps1` links it for Claude Code and Grok.
    - **Private personal skill:** reused across projects, but it mentions your clients, infrastructure, hostnames or internal procedures. It goes in `<private-skills-repo>` under `skills/<skill-name>/SKILL.md`.
    - **Public skill:** generic and useful to anyone. It goes in `<public-skills-repo>` under `skills/<skill-name>/SKILL.md`. Only scrubbed, generic content.
    - If it's a project skill, check that the project repo is private before writing hostnames or paths into it (`gh repo view <owner>/<repo> --json visibility`). If it isn't, treat the skill as public.
@@ -35,6 +36,7 @@ Set these up once and use them in place of the placeholders below:
    visibility: private | public
    scope: project | personal
    project: <repo or project name, only if scope is project>
+   last-verified: <YYYY-MM-DD: the last time someone followed it and it worked>
    ---
    ```
    The description decides when an agent picks the skill. Say *when*, not *what*.
@@ -45,19 +47,20 @@ Set these up once and use them in place of the placeholders below:
    - `## never`: what must not happen.
 
    Keep it short and in plain English. Point to *where* things are stored, never *what* the secrets are.
-7. **Scan before committing.** Search the skill for secrets and specifics:
-   ```bash
-   grep -rnEi '([0-9]{1,3}\.){3}[0-9]{1,3}|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}|(api[_-]?key|token|secret|passw(or)?d)\s*[:=]|-----BEGIN|[A-Z]:\\|/home/|/Users/' skills/<skill-name>/
+7. **Check before committing.** In a skills repo, run the checker. The repo's pre-commit hook runs it too, once `git config core.hooksPath .githooks` is set.
+   ```powershell
+   .\tools\check-skills.ps1 -Root . -Expect public   # or private
    ```
-   Every hit must be removed or justified (for example `127.0.0.1` in a private skill). For a public skill, also read it once for client names, hostnames, domains and project names, and remove every one.
+   It checks the frontmatter and sections and scans for secrets. In a public repo it also refuses IPs, emails, machine paths, and every word in your private denylist (`~/.config/skills-denylist.txt`: client names, hostnames, domains; never committed). Still read a public skill once yourself for anything the checker can't know about. In a project repo without the checker, search the skill for secrets by hand before committing.
 8. **Publishing a private skill.** Make a generic **copy** in `<public-skills-repo>`. Replace specifics with placeholders like `<your-server>` or `<service-name>`. Keep the private original where it is, and never link from the public copy to anything private.
 9. **List it.** If the repo's README has a skills table, add a row: the name and "use it when …".
 10. **Commit.** Push it following the repo's branch rules. Verify that the file is on the remote: `git log --oneline -1 -- skills/<skill-name>`.
 11. **Report.** For each skill: what you created, where you put it, its visibility and scope, and anything you scrubbed or weren't sure about.
 
 ## gotchas
-- Different agent tools load skills from different folders. Cursor reads `.cursor/skills/`; other tools have their own (for example `.claude/skills/`). If you use more than one tool, link those folders to the same files rather than keeping copies.
-- Older skills may predate the `visibility` and `scope` fields. Add them the next time you touch the skill.
+- Different agent tools load skills from different folders. In a repo, `.agents/skills/` covers Cursor, Codex and Devin; Claude Code reads `.claude/skills/` and Grok `.grok/skills/` (or its config). On your machine, `tools/sync-skills.ps1` links every tool's folder to your skills repos, so you edit a skill once, in git, and every tool sees it.
+- A skill that's wrong is worse than none. When a step fails or someone corrects the agent, fix the skill in that same session and update `last-verified`.
+- Older skills may predate the `visibility`, `scope` and `last-verified` fields. Add them the next time you touch the skill.
 - A "private" project skill is only as private as its repo. Check the repo's visibility.
 - Helper scripts get the same scan as SKILL.md.
 

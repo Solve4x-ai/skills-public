@@ -1,0 +1,3 @@
+#!/bin/sh
+# Blocks the commit if a skill is malformed or leaks anything (tools/check-skills.ps1).
+exec pwsh -NoProfile -File tools/check-skills.ps1 -Root . -Expect public

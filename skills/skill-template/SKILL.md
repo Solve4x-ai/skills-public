@@ -1,6 +1,9 @@
 ---
 name: skill-template
 description: Use when writing a new skill. Copy this folder and fill it in.
+visibility: public
+scope: personal
+last-verified: 2026-10-13
 ---
 # <skill-name>
 
