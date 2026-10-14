@@ -37,6 +37,7 @@ param(
     (Join-Path $env:APPDATA 'devin\skills'),
     (Join-Path $HOME '.codeium\windsurf\skills')
   ),
+  [string]$ProjectsFile,            # a list of project folders, one per line ("# comments" and a trailing " public" allowed)
   [string]$GrokConfig = (Join-Path $HOME '.grok\config.toml'),
   [switch]$Pull,
   [switch]$Schedule,
@@ -46,6 +47,11 @@ $ErrorActionPreference = 'Stop'
 # `pwsh -File` (the scheduled task) passes a list as one comma-joined string; split it back.
 $Sources = $Sources -split ',' | Where-Object { $_ } | ForEach-Object { (Resolve-Path $_.Trim()).Path.TrimEnd('\') }
 $Projects = @($Projects -split ',' | Where-Object { $_ } | ForEach-Object { $_.Trim() })
+if ($ProjectsFile -and (Test-Path $ProjectsFile)) {
+  $Projects += Get-Content $ProjectsFile | Where-Object { $_.Trim() -and -not $_.TrimStart().StartsWith('#') } |
+    ForEach-Object { ($_ -replace '\spublic\s*$', '').Trim() }
+}
+$Projects = @($Projects | Select-Object -Unique | Where-Object { Test-Path (Join-Path $_ '.agents\skills') })
 
 function Test-Junction($path) {
   $i = Get-Item -LiteralPath $path -Force -ErrorAction SilentlyContinue
@@ -130,7 +136,9 @@ if ($Schedule) {
   $quote = { param($a) '"' + $a + '"' }
   $argList = @('-NoProfile', '-WindowStyle', 'Hidden', '-ExecutionPolicy', 'Bypass', '-File', (& $quote $PSCommandPath), '-Pull', '-Sources') +
     (($Sources | ForEach-Object { & $quote $_ }) -join ',')
-  if ($Projects) { $argList += @('-Projects', (($Projects | ForEach-Object { & $quote $_ }) -join ',')) }
+  # A projects file is re-read on every run, so repos added to it later are picked up.
+  if ($ProjectsFile) { $argList += @('-ProjectsFile', (& $quote (Resolve-Path $ProjectsFile).Path)) }
+  elseif ($Projects) { $argList += @('-Projects', (($Projects | ForEach-Object { & $quote $_ }) -join ',')) }
   $shell = (Get-Command pwsh -ErrorAction SilentlyContinue)?.Source ?? (Get-Command powershell).Source
   $action = New-ScheduledTaskAction -Execute $shell -Argument ($argList -join ' ')
   $triggers = @(

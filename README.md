@@ -47,6 +47,7 @@ Not on Windows? Symlink the folders under `skills/` into the folders in the tabl
 | [`plain-words`](./skills/plain-words/SKILL.md) | you're writing UI text, errors or reports for non-technical people. |
 | [`ui-check`](./skills/ui-check/SKILL.md) | a change touches anything a person sees, before calling it done. |
 | [`handoff`](./skills/handoff/SKILL.md) | you're handing work to another AI agent or a person. |
+| [`new-repo`](./skills/new-repo/SKILL.md) | you want a new GitHub repository: it asks a few plain questions, then sets everything up. |
 
 More are on the way as they get cleaned up for public use.
 
@@ -68,6 +69,7 @@ No secrets, keys, IPs, client names, or personal info. Skills say *where* to fin
 
 - [`tools/sync-skills.ps1`](./tools/sync-skills.ps1): links your skills repos into every AI tool's skills folder and keeps them pulled.
 - [`tools/check-skills.ps1`](./tools/check-skills.ps1): checks each skill's shape and privacy marking, and scans for leaks.
+- [`tools/new-repo/new-repo.ps1`](./tools/new-repo/new-repo.ps1): creates a complete repo (docs, security files, templates, GitHub settings) from the `new-repo` skill's answers.
 
 ## 🤝 Contributing
 
