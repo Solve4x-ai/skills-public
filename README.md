@@ -24,6 +24,7 @@ type `/` in Cursor's agent chat, pick a skill, and say what you want:
 
 | skill | use it when |
 |---|---|
+| [`/skill-authoring`](./skills/skill-authoring/SKILL.md) | you're creating, moving, editing or publishing a skill and want it in the right place, marked private or public, in the same shape as the rest. |
 | [`/skill-template`](./skills/skill-template/SKILL.md) | you're writing a new skill and want the starting shape. |
 
 more coming as i clean them up.
