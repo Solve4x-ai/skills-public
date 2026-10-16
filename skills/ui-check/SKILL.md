@@ -3,6 +3,7 @@ name: ui-check
 description: Use when a change touches anything a person sees in a web UI, before calling it done.
 visibility: public
 scope: personal
+layer: engineering
 last-verified: 2026-10-13
 ---
 # ui-check

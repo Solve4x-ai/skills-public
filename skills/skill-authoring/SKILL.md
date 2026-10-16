@@ -3,7 +3,8 @@ name: skill-authoring
 description: Use when creating, moving, editing or publishing an agent skill (SKILL.md), so it lands in the right place with the right privacy and the same shape as the rest.
 visibility: public
 scope: personal
-last-verified: 2026-10-13
+layer: engineering
+last-verified: 2026-10-15
 ---
 # skill-authoring
 
@@ -36,10 +37,12 @@ Set these up once and use them in place of the placeholders below:
    visibility: private | public
    scope: project | personal
    project: <repo or project name, only if scope is project>
+   layer: engineering | platform | msp
    last-verified: <YYYY-MM-DD: the last time someone followed it and it worked>
    ---
    ```
    The description decides when an agent picks the skill. Say *when*, not *what*.
+   `layer` says whose rules it holds: `engineering` (how to build and ship the product), `platform` (how any AI uses the product), or `msp` (how this business operates with it). Client-specific rules never go in a skill.
 6. **Write the body in this order:**
    - `# <skill-name>` and a one-line purpose;
    - numbered short steps, each with the real command and how to verify it worked;
@@ -60,7 +63,7 @@ Set these up once and use them in place of the placeholders below:
 ## gotchas
 - Different agent tools load skills from different folders. In a repo, `.agents/skills/` covers Cursor, Codex and Devin; Claude Code reads `.claude/skills/` and Grok `.grok/skills/` (or its config). On your machine, `tools/sync-skills.ps1` links every tool's folder to your skills repos, so you edit a skill once, in git, and every tool sees it.
 - A skill that's wrong is worse than none. When a step fails or someone corrects the agent, fix the skill in that same session and update `last-verified`.
-- Older skills may predate the `visibility`, `scope` and `last-verified` fields. Add them the next time you touch the skill.
+- Older skills may predate the `visibility`, `scope`, `layer` and `last-verified` fields. Add them the next time you touch the skill.
 - A "private" project skill is only as private as its repo. Check the repo's visibility.
 - Helper scripts get the same scan as SKILL.md.
 

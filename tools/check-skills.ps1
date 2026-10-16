@@ -5,7 +5,8 @@
 .DESCRIPTION
   For each skills/<name>/SKILL.md:
     - frontmatter has name (= folder name), description starting "Use when",
-      visibility (must equal -Expect), scope (project|personal), last-verified (YYYY-MM-DD);
+      visibility (must equal -Expect), scope (project|personal), layer (engineering|platform|msp:
+      which layer of the operating rules it belongs to), last-verified (YYYY-MM-DD);
     - the body has "## gotchas" and "## never" sections.
   Then scans every file under skills/ for secrets (keys, tokens, passwords, private-key blocks).
   With -Expect public it also refuses IP addresses, email addresses, machine paths, and any
@@ -39,6 +40,7 @@ foreach ($dir in Get-ChildItem -LiteralPath $skillsDir -Directory) {
   $vis = & $field 'visibility'
   if ($vis -ne $Expect) { $problems.Add("${rel}: visibility is '$vis' but this repo is $Expect") }
   if ((& $field 'scope') -notin 'project', 'personal') { $problems.Add("${rel}: scope must be project or personal") }
+  if ((& $field 'layer') -notin 'engineering', 'platform', 'msp') { $problems.Add("${rel}: layer must be engineering, platform or msp (see the operating-rules layers)") }
   if ((& $field 'last-verified') -notmatch '^\d{4}-\d{2}-\d{2}$') { $problems.Add("${rel}: last-verified must be a date (YYYY-MM-DD)") }
   foreach ($h in '## gotchas', '## never') { if ($body -notmatch "(?m)^$([regex]::Escape($h))\s*$") { $problems.Add("${rel}: missing '$h' section") } }
 }

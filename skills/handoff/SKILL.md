@@ -3,6 +3,7 @@ name: handoff
 description: Use when handing work to another AI agent or a person (a new session, a different tool, a contractor), so they can start without asking you anything.
 visibility: public
 scope: personal
+layer: engineering
 last-verified: 2026-10-13
 ---
 # handoff

@@ -3,6 +3,7 @@ name: plain-words
 description: Use when writing or reviewing anything a non-technical person will read in a product or report, such as UI labels, errors, empty states, approval prompts or status summaries.
 visibility: public
 scope: personal
+layer: engineering
 last-verified: 2026-10-13
 ---
 # plain-words

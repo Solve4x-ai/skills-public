@@ -3,6 +3,7 @@ name: root-cause
 description: Use when fixing a bug, a wrong number, a false alert or anything that "shouldn't happen", before writing the fix.
 visibility: public
 scope: personal
+layer: engineering
 last-verified: 2026-10-13
 ---
 # root-cause

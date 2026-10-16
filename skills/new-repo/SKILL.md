@@ -3,6 +3,7 @@ name: new-repo
 description: Use when someone wants a new GitHub repository (a new project, app, tool, site or docs collection), before creating anything.
 visibility: public
 scope: personal
+layer: engineering
 last-verified: 2026-10-13
 ---
 # new-repo

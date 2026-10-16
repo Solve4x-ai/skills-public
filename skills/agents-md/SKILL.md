@@ -3,6 +3,7 @@ name: agents-md
 description: Use when starting or updating a repo's AGENTS.md, or when a rule that should apply to every repo changes.
 visibility: public
 scope: personal
+layer: engineering
 last-verified: 2026-10-13
 ---
 # agents-md
